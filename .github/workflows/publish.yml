@@ -1,0 +1,42 @@
+name: Publish plugin updates
+on:
+  push:
+    branches: [main]
+    paths: ['packages/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate manifest
+        run: |
+          python3 - <<'PY'
+          import zipfile,configparser,json,hashlib,re
+          from pathlib import Path
+          repo='SRMulder/lmsnrm-qgis-updates'
+          manifest={'schema_version':1,'repository':repo,'plugins':{}}
+          for plugin in ['rws_toolbar','rp2025_bibliotheek']:
+              files=list(Path('packages').glob(plugin+'_*.zip'))
+              def version(p):return tuple(map(int,re.search(r'_(\d+(?:\.\d+)+)\.zip$',p.name).group(1).split('.')))
+              path=max(files,key=version)
+              with zipfile.ZipFile(path) as z:
+                  assert not any('/data/' in n or '/assets/' in n for n in z.namelist())
+                  assert z.testzip() is None
+                  cfg=configparser.ConfigParser();cfg.read_string(z.read(plugin+'/metadata.txt').decode())
+              info=cfg['general']
+              manifest['plugins'][plugin]={'name':info['name'],'version':info['version'],'qgis_minimum':info['qgisMinimumVersion'],'qgis_maximum':info['qgisMaximumVersion'],'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'asset_api_url':f'https://raw.githubusercontent.com/{repo}/main/{path}'}
+          Path('update-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add update-manifest.json
+          if ! git diff --cached --quiet; then git commit -m 'Refresh update manifest'; git push; fi
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="updates-${GITHUB_SHA:0:8}"
+          gh release create "$TAG" packages/*.zip --title "QGIS pluginupdates" --notes "Pluginbestanden zonder interne data."

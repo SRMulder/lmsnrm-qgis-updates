@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "repository": "SRMulder/lmsnrm-qgis-updates",
+  "plugins": {
+    "rws_toolbar": {
+      "name": "LMSNRM Toolbar",
+      "version": "0.9.5",
+      "qgis_minimum": "3.28",
+      "qgis_maximum": "4.99",
+      "sha256": "759de7df80b4c4d373656ee6eae48d70e811c6b07b372f050478fcd9b869aa81",
+      "asset_api_url": "https://raw.githubusercontent.com/SRMulder/lmsnrm-qgis-updates/main/packages/rws_toolbar_0.9.5.zip"
+    },
+    "rp2025_bibliotheek": {
+      "name": "RP2025 v2 Netwerkbibliotheek",
+      "version": "1.1.3",
+      "qgis_minimum": "3.28",
+      "qgis_maximum": "4.99",
+      "sha256": "1171f5c37a6812438715b94aea104ce51558559c24784effeadbe2d48e6d17db",
+      "asset_api_url": "https://raw.githubusercontent.com/SRMulder/lmsnrm-qgis-updates/main/packages/rp2025_bibliotheek_1.1.3.zip"
+    }
+  }
+}
