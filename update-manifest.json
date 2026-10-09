@@ -4,11 +4,11 @@
   "plugins": {
     "rws_toolbar": {
       "name": "LMSNRM Toolbar",
-      "version": "0.9.7",
+      "version": "0.9.8",
       "qgis_minimum": "3.28",
       "qgis_maximum": "4.99",
-      "sha256": "4914a0ca8ce15e173ff8433715bdb1fb2ea49e00aa281a793ac384fcce29e490",
-      "asset_api_url": "https://raw.githubusercontent.com/SRMulder/lmsnrm-qgis-updates/main/packages/rws_toolbar_0.9.7.zip"
+      "sha256": "435963cd607c1f42c2921f2ea410011c79914e20a24d8818ac3c104ed440874a",
+      "asset_api_url": "https://raw.githubusercontent.com/SRMulder/lmsnrm-qgis-updates/main/packages/rws_toolbar_0.9.8.zip"
     },
     "rp2025_bibliotheek": {
       "name": "RP2025 v2 Netwerkbibliotheek",
