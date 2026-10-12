@@ -20,6 +20,8 @@ jobs:
           manifest={'schema_version':1,'repository':repo,'plugins':{}}
           for plugin in ['rws_toolbar','rp2025_bibliotheek']:
               files=list(Path('packages').glob(plugin+'_*.zip'))
+              if not files:
+                  continue
               def version(p):return tuple(map(int,re.search(r'_(\d+(?:\.\d+)+)\.zip$',p.name).group(1).split('.')))
               path=max(files,key=version)
               with zipfile.ZipFile(path) as z:
